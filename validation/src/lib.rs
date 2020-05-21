@@ -14,12 +14,19 @@
 #[macro_use]
 extern crate alloc;
 
+#[cfg(all(not(feature = "std"), not(feature = "mesalock_sgx")))]	
+#[macro_use]
+extern crate alloc;
+
 #[cfg(all(feature = "std", feature = "mesalock_sgx", not(target_env = "sgx")))]
 extern crate sgx_tstd as alloc;
 
 #[cfg(all(feature = "std", feature = "mesalock_sgx", not(target_env = "sgx")))]
 #[macro_use]
 extern crate sgx_tstd as std;
+
+#[cfg(all(feature = "std", not(feature = "mesalock_sgx")))]	
+extern crate std as alloc;
 
 pub mod stack;
 
