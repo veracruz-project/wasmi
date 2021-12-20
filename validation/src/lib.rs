@@ -1,31 +1,12 @@
 // TODO: Uncomment
 // #![warn(missing_docs)]
 
-#![cfg_attr(any(not(feature = "std"),
-                all(feature = "mesalock_sgx", not(target_env = "sgx"))), no_std)]
-//// alloc is required in no_std
-#![cfg_attr(any(not(feature = "std"),
-                all(feature = "mesalock_sgx", target_env = "sgx")),
-            feature(alloc_prelude))]
+#![cfg_attr(not(feature = "std"), no_std)]
 
-#![cfg_attr(all(target_env = "sgx", target_vendor = "mesalock"), feature(rustc_private))]
-
-#[cfg(any(not(feature = "std"), target_env = "sgx"))]
+#[cfg(not(feature = "std"))]
 #[macro_use]
 extern crate alloc;
-
-#[cfg(all(not(feature = "std"), not(feature = "mesalock_sgx")))]	
-#[macro_use]
-extern crate alloc;
-
-#[cfg(all(feature = "std", feature = "mesalock_sgx", not(target_env = "sgx")))]
-extern crate sgx_tstd as alloc;
-
-#[cfg(all(feature = "std", feature = "mesalock_sgx", not(target_env = "sgx")))]
-#[macro_use]
-extern crate sgx_tstd as std;
-
-#[cfg(all(feature = "std", not(feature = "mesalock_sgx")))]	
+#[cfg(feature = "std")]
 extern crate std as alloc;
 
 pub mod stack;

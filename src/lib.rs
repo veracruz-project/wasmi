@@ -95,39 +95,15 @@
 //! ```
 
 #![warn(missing_docs)]
-#![cfg_attr(all(not(feature = "std"),not(feature = "mesalock_sgx")), no_std)]
-#![cfg_attr(any(not(feature = "std"),
-                all(feature = "mesalock_sgx", not(target_env = "sgx"))), no_std)]
-//// alloc is required in no_std
-#![cfg_attr(any(not(feature = "std"),
-                all(feature = "mesalock_sgx", target_env = "sgx")),
-            feature(alloc_prelude))]
-#![cfg_attr(all(target_env = "sgx", target_vendor = "mesalock"), feature(rustc_private))]
+#![cfg_attr(not(feature = "std"), no_std)]
 
-#[cfg(all(not(feature = "std"),not(feature = "mesalock_sgx")))]
+#[cfg(not(feature = "std"))]
 #[macro_use]
 extern crate alloc;
-
-#[cfg(all(feature = "std",not(feature = "mesalock_sgx")))]
+#[cfg(feature = "std")]
 extern crate std as alloc;
 
-#[cfg(all(feature = "std",not(feature = "mesalock_sgx")))]
-#[macro_use]
-extern crate core;
-
-
-#[cfg(any(not(feature = "std"), target_env = "sgx"))]
-#[macro_use]
-extern crate alloc;
-
-#[cfg(all(feature = "std", feature = "mesalock_sgx", not(target_env = "sgx")))]
-extern crate sgx_tstd as alloc;
-
-#[cfg(all(feature = "std", feature = "mesalock_sgx", not(target_env = "sgx")))]
-#[macro_use]
-extern crate sgx_tstd as std;
-
-#[cfg(all(feature = "std", target_env = "sgx"))]
+#[cfg(feature = "std")]
 #[macro_use]
 extern crate core;
 
@@ -140,9 +116,6 @@ extern crate memory_units as memory_units_crate;
 extern crate parity_wasm;
 
 extern crate wasmi_validation as validation;
-
-#[macro_use]
-extern crate serde;
 
 use alloc::{
     boxed::Box,
@@ -163,7 +136,7 @@ extern crate num_traits;
 ///
 /// Under some conditions, wasm execution may produce a `Trap`, which immediately aborts execution.
 /// Traps can't be handled by WebAssembly code, but are reported to the embedder.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug)]
 pub struct Trap {
     kind: TrapKind,
 }
@@ -198,7 +171,7 @@ impl error::Error for Trap {
 /// See [`Trap`] for details.
 ///
 /// [`Trap`]: struct.Trap.html
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug)]
 pub enum TrapKind {
     /// Wasm code executed `unreachable` opcode.
     ///
@@ -281,7 +254,7 @@ impl TrapKind {
 }
 
 /// Internal interpreter error.
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug)]
 pub enum Error {
     /// Module validation error. Might occur only at load time.
     Validation(String),
