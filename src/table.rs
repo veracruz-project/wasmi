@@ -1,4 +1,4 @@
-use alloc::{sync::Arc, vec::Vec};
+use alloc::{rc::Rc, vec::Vec};
 use core::cell::RefCell;
 use core::fmt;
 use core::u32;
@@ -14,7 +14,7 @@ use Error;
 /// [`TableInstance`]: struct.TableInstance.html
 ///
 #[derive(Clone, Debug)]
-pub struct TableRef(Arc<TableInstance>);
+pub struct TableRef(Rc<TableInstance>);
 
 impl ::core::ops::Deref for TableRef {
     type Target = TableInstance;
@@ -65,7 +65,7 @@ impl TableInstance {
     /// Returns `Err` if `initial_size` is greater than `maximum_size`.
     pub fn alloc(initial_size: u32, maximum_size: Option<u32>) -> Result<TableRef, Error> {
         let table = TableInstance::new(ResizableLimits::new(initial_size, maximum_size))?;
-        Ok(TableRef(Arc::new(table)))
+        Ok(TableRef(Rc::new(table)))
     }
 
     fn new(limits: ResizableLimits) -> Result<TableInstance, Error> {
@@ -152,8 +152,3 @@ impl TableInstance {
         Ok(())
     }
 }
-
-unsafe impl Sync for TableRef {}
-unsafe impl Send for TableRef {}
-unsafe impl Sync for TableInstance {}
-unsafe impl Send for TableInstance {}
