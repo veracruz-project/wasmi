@@ -127,7 +127,8 @@ impl<'a> RuntimeArgs<'a> {
 /// }
 ///
 /// ```
-pub trait HostError: 'static + ::core::fmt::Display + ::core::fmt::Debug + DowncastSync {}
+#[typetag::serde(tag = "type")]
+pub trait HostError: 'static + ::core::fmt::Display + ::core::fmt::Debug + DowncastSync + Send + Sync {}
 impl_downcast!(HostError);
 
 /// Trait that allows to implement host functions.

@@ -105,6 +105,9 @@ extern crate alloc;
 #[cfg(feature = "std")]
 extern crate std as alloc;
 
+#[macro_use]
+extern crate serde;
+
 use alloc::{
     boxed::Box,
     string::{String, ToString},
@@ -121,7 +124,7 @@ extern crate libm;
 ///
 /// Under some conditions, wasm execution may produce a `Trap`, which immediately aborts execution.
 /// Traps can't be handled by WebAssembly code, but are reported to the embedder.
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Trap {
     kind: TrapKind,
 }
@@ -161,7 +164,7 @@ impl error::Error for Trap {
 /// See [`Trap`] for details.
 ///
 /// [`Trap`]: struct.Trap.html
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum TrapKind {
     /// Wasm code executed `unreachable` opcode.
     ///
@@ -276,7 +279,7 @@ impl Display for TrapKind {
 }
 
 /// Internal interpreter error.
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum Error {
     /// Module validation error. Might occur only at load time.
     Validation(String),

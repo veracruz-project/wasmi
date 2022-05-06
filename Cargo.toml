@@ -20,6 +20,8 @@ num-rational = { version = "0.4", default-features = false, features = ["num-big
 num-traits = { version = "0.2.8", default-features = false }
 region = { version = "3.0.0", optional = true }
 downcast-rs = { version = "1.2.0", default-features = false }
+serde = { version = "1.0.115", features = ["derive"] }
+typetag = "0.1.6"
 
 [dev-dependencies]
 assert_matches = "1.1"
