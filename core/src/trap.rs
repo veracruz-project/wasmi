@@ -9,7 +9,7 @@ use std::error::Error as StdError;
 ///
 /// Under some conditions, wasm execution may produce a `Trap`, which immediately aborts execution.
 /// Traps can't be handled by WebAssembly code, but are reported to the embedder.
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum Trap {
     /// Traps during Wasm execution.
     Code(TrapCode),
@@ -81,7 +81,7 @@ impl StdError for Trap {
 /// See [`Trap`] for details.
 ///
 /// [`Trap`]: struct.Trap.html
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
 pub enum TrapCode {
     /// Wasm code executed `unreachable` opcode.
     ///

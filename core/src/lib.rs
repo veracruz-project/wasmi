@@ -6,6 +6,9 @@ mod trap;
 mod untyped;
 mod value;
 
+#[macro_use]
+extern crate serde;
+
 #[cfg(feature = "virtual_memory")]
 mod vmem;
 

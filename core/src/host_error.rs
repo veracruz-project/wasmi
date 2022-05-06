@@ -57,5 +57,6 @@ use downcast_rs::{impl_downcast, DowncastSync};
 /// }
 ///
 /// ```
-pub trait HostError: 'static + Display + Debug + DowncastSync {}
+#[typetag::serde(tag = "type")]
+pub trait HostError: 'static + Display + Debug + DowncastSync + Send + Sync {}
 impl_downcast!(HostError);

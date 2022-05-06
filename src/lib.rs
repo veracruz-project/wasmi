@@ -104,6 +104,9 @@ extern crate alloc;
 #[cfg(feature = "std")]
 extern crate std as alloc;
 
+#[macro_use]
+extern crate serde;
+
 use alloc::{
     boxed::Box,
     string::{String, ToString},
@@ -114,7 +117,7 @@ use core::fmt;
 use std::error;
 
 /// Internal interpreter error.
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum Error {
     /// Module validation error. Might occur only at load time.
     Validation(String),

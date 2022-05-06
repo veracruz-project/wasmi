@@ -15,6 +15,8 @@ exclude = [ "/res/*", "/tests/*", "/fuzz/*", "/benches/*" ]
 wasmi_core = { version = "0.2.1", path = "core", default-features = false }
 validation = { package = "wasmi-validation", version = "0.5.0", path = "validation", default-features = false }
 parity-wasm = { version = "0.45.0", default-features = false }
+serde = { version = "1.0.115", features = ["derive"] }
+typetag = "0.1.6"
 
 [dev-dependencies]
 assert_matches = "1.5"
